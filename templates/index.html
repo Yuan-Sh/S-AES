@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>S-AES Encryption/Decryption</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            background-color: #2a5a8e;
+            color: #ffffff;
+            padding: 10px;
+        }
+
+        form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 5px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        select {
+            width: 100%;
+            padding: 5px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        input[type="submit"] {
+            background-color: #2a5a8e;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #1a3a6e;
+        }
+
+        h2 {
+            margin-top: 20px;
+        }
+        .button-container {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+   .button-container {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    button, input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        margin: 4px 2px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+    button:hover, input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+
+    </style>
+
+</head>
+<body>
+<h1>S-AES Encryption/Decryption</h1>
+
+<form method="POST">
+    <label htmlFor="plaintext">Plaintext:</label>
+    <input type="text" id="plaintext" name="plaintext" autocomplete="off">
+    <br>
+    <label htmlFor="ciphertext">Ciphertext:</label>
+    <input type="text" id="ciphertext" name="ciphertext" autocomplete="off">
+    <br>
+    <label htmlFor="key">Key:</label>
+    <input type="text" id="key" name="key" autocomplete="off">
+    <br>
+
+    <label htmlFor="mode">Mode:</label>
+    <select id="mode" name="mode">
+        <option value="encrypt">Encrypt</option>
+        <option value="decrypt">Decrypt</option>
+        <option value="double_encrypt">Double_encrypt</option>
+        <option value="double_decrypt">Double_decrypt </option>
+        <option value="meet_in_middle_attack">meet_in_middle_attack </option>
+        <option value="triple_encrypt">Triple_encrypt </option>
+        <option value="triple_decrypt">Triple_decrypt</option>
+        <option value="CBC_encrypt">CBC_encrypt</option>
+        <option value="CBC_decrypt">CBC_decrypt</option>
+    </select>
+    <br>
+    <div class="button-container">
+        <input type="submit" value="Submit">
+        <button type="button" onclick="refresh()">refresh</button>
+    </div>
+    <!-- Text output box for result -->
+    <input type="text" id="resultBox" name="resultBox" value="{{ result }}" readOnly>
+</form>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const form = document.querySelector('form');
+        const resultBox = document.getElementById('resultBox');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault(); // 阻止表单的默认提交行为
+
+            // 获取表单数据
+            const formData = new FormData(form);
+
+            // 将数据发送到服务器
+            fetch(form.action, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                resultBox.value = data.result; // 将结果放入结果框
+            })
+            .catch(error => {
+                console.error('Error during fetch operation: ', error.message);
+            });
+        });
+    });
+    function refresh() {
+        const form = document.querySelector('form');
+        const resultBox = document.getElementById('resultBox');
+        form.reset(); // 重置表单
+        resultBox.value = ''; // 清空结果框
+    }
+</script>
+</body>
+</html>
+
